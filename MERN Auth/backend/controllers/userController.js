@@ -1,13 +1,40 @@
 import asyncHandler from 'express-async-handler'
+import User from '../models/userModel.js'
 
 // DESC - Register a User
 // ROUTE -  POST /api/users
 // ACCESS - public --which means anyone can access, you don't need to be logged in to access this page.
 
 const registerUser = asyncHandler(async (req,res)=>{
-    res.status(200).json({
-        message:"Registration Page."
+    const {name,email,password} = req.body;
+    
+    const userExists = await User.findOne({email: email})
+
+    if(userExists){
+        res.status(400);
+        throw new Error('User already exists.');
+    }
+
+    const user= await User.create({
+    name,
+    email,
+    password
     })
+
+    if(user){
+        res.status(200).json({
+            _id:user._id,
+            name:user.name,
+            email:user.email
+        })
+    }
+    else{
+        res.status(404);
+        throw new Error("User was not created.")
+    }
+    // res.status(200).json({
+    //     message:"Registration Page."
+    // })
 });
 
 // DESC - Auth User/set token/Login
