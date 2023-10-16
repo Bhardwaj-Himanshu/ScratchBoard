@@ -22,4 +22,4 @@ const bookSchema = mongoose.Schema(
   }
 );
 
-export const Kitten = mongoose.model('Kitten', bookSchema);
+export const Book = mongoose.model('RandomData', bookSchema);
