@@ -13,15 +13,15 @@ app.use(express.json());
 
 //Middleware to handle CORS policies
 // 1st Method allows everyone
-// app.use(cors());
+app.use(cors());
 // 2nd Method allows more control
-app.use(
-  cors({
-    origin: 'http://localhost:5000',
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    allowedHeaders: ['Content-Type'],
-  })
-);
+// app.use(
+//   cors({
+//     origin: 'http://localhost:5000',
+//     methods: ['GET', 'POST', 'PUT', 'DELETE'],
+//     allowedHeaders: ['Content-Type'],
+//   })
+// );
 
 // Re-Routing them to different routes
 app.use('/', userRoutes);
