@@ -23,7 +23,8 @@ const addNewBook = async (req, res) => {
     ) {
       console.log('if block');
       return res.status(400).send({
-        message: 'Send all the required fields:title,author,publishYear',
+        message:
+          'Send all the required fields such as Title,Author and PublishYear.',
       });
     } else {
       console.log('else block');
