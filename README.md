@@ -1,15 +1,13 @@
 # BackendScratchBoard
-A playground for learning nodejs!
+A playground for learning backyard things, just not easy as sliding down the slide!
 
-## MERN Auth
+# BookStore-fcc
+Was made using a tutorial from freeCodeCamp.
+## Final Preview
+https://github.com/Bhardwaj-Himanshu/BackendScratchBoard/assets/74407676/5fd4a868-dd73-46e3-b000-3364f2bb30a0
 
-### Backend
-- [x] **POST /api/users** - Register a user
-- [x] **POST /api/users/auth** - Authenticate a user and get token
-- [x] **POST /api/users/logout** - Logout user and clear cookie
-- [x] **GET /api/users/profile** - Get user profile/dashboard
-- [x] **PUT /api/users/profile** - Update profile
 
-### Frontend
+
+
 
 
