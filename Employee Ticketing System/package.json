@@ -2,7 +2,7 @@
   "name": "employee-ticketing-system",
   "version": "1.0.0",
   "description": "An Employee ticketing system where users/employees can create,view,edit or delete tickets.",
-  "type": "module",
+  "type": "commonjs",
   "main": "index.js",
   "scripts": {
     "start": "node backend/server.js",
