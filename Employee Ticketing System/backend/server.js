@@ -1,17 +1,25 @@
 const express = require('express');
 const path = require('path');
+const cookieParser = require('cookie-parser');
+const cors = require('cors');
 const { logger, logEvents } = require('./middleware/logger');
+const corsOptions = require('./config/corsOptions');
+const errorHandler = require('./middleware/errorHandler');
 
 const app = express();
 require('dotenv').config();
 
 // Will face a CORS error here intially
-const PORT = /*process.env.PORT ||*/ 3000;
+const PORT = process.env.PORT || 3500;
 
 /*<------------------------MIDDLEWARE------------------------------------> */
 app.use(logger);
 // ability to process JSON data
 app.use(express.json());
+// ability of cross origin resource sharing API fetching via other sites
+app.use(cors(corsOptions));
+// ability to use cookies
+app.use(cookieParser());
 // ability to render/send static files for anything coming to '/'
 app.use('/', express.static(path.join(__dirname, 'public')));
 // sends these to routes with callbacks
@@ -31,6 +39,8 @@ app.all('*', (req, res) => {
   }
 });
 /*<!-------------------END OF MIDDLEWARE----------------------!> */
+
+app.use(errorHandler);
 
 app.listen(PORT, () => {
   console.log(`Server is running at ${PORT}`);
