@@ -1,4 +1,6 @@
 const express = require('express');
+const connectDB = require('./config/dbConfig');
+const mongoose = require('mongoose');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
@@ -42,6 +44,18 @@ app.all('*', (req, res) => {
 
 app.use(errorHandler);
 
-app.listen(PORT, () => {
-  console.log(`Server is running at ${PORT}`);
-});
+mongoose
+  .connect(process.env.DATABASE_URI)
+  .then(() => {
+    console.log('Database connected successfully!');
+    app.listen(PORT, () => {
+      console.log(`Server is running at ${PORT}`);
+    });
+  })
+  .catch((error) => {
+    console.log(error);
+    logEvents(
+      `${err.name}: ${err.message}\t${req.method}\t${req.url}\t${req.headers.origin}`,
+      'mongoErrLog.log'
+    );
+  });
