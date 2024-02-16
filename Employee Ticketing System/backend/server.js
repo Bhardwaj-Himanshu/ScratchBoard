@@ -27,7 +27,7 @@ app.use('/', express.static(path.join(__dirname, 'public')));
 // sends these to routes with callbacks
 app.use('/', require('./routes/root'));
 // making controller functions
-app.use('/users', require('./routes/userRoutes.js'));
+app.use('/users', require('./routes/userRoutes'));
 // 404 Page for if something invalid requested
 app.all('*', (req, res) => {
   res.status(404);

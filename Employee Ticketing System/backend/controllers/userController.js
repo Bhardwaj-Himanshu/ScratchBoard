@@ -1,5 +1,5 @@
 const Note = require('../models/note');
-const User = require('../models/note');
+const User = require('../models/user');
 const asyncHandler = require('express-async-handler');
 const bcrypt = require('bcrypt');
 
@@ -31,13 +31,13 @@ const createNewUser = asyncHandler(async (req, res) => {
     });
   }
   // check for duplicates
-  const duplicate = User.findOne(username).lean().exec();
+  // const duplicate = User.findOne({ username }).lean().exec();
 
-  if (duplicate) {
-    res.status(409).send({
-      message: 'Duplicate username!',
-    });
-  }
+  // if (duplicate) {
+  //   res.status(409).send({
+  //     message: 'Duplicate username!',
+  //   });
+  // }
 
   // hash the password we recieved before storing
   const hashedPwd = await bcrypt.hash(password, 10); // 10 salt rounds
@@ -52,6 +52,10 @@ const createNewUser = asyncHandler(async (req, res) => {
     res.status(201).json({
       message: `New user ${username} created!`,
     });
+  } else {
+    res.status(400).json({
+      message: 'Invalid user Data recieved!',
+    });
   }
 });
 
@@ -59,12 +63,16 @@ const createNewUser = asyncHandler(async (req, res) => {
 //@route PATCH /users
 //@access private
 
-const updateUser = asyncHandler(async () => {});
+const updateUser = asyncHandler(async (req, res, next) => {
+  next();
+});
 
 //@desc Delete a User
 //@route DELETE /users
 //@access private
 
-const deleteUser = asyncHandler(async () => {});
+const deleteUser = asyncHandler(async (req, res, next) => {
+  next();
+});
 
 module.exports = { getAllUsers, createNewUser, updateUser, deleteUser };

@@ -13,3 +13,5 @@ router
   .post(createNewUser)
   .patch(updateUser)
   .delete(deleteUser);
+
+module.exports = router;
