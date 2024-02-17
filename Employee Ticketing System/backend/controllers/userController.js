@@ -33,7 +33,7 @@ const createNewUser = asyncHandler(async (req, res) => {
   const duplicate = await User.findOne({ username }).lean().exec();
 
   if (duplicate) {
-    res.status(409).send({
+    res.status(409).json({
       message: 'Duplicate username!',
     });
     return;
@@ -77,7 +77,7 @@ const updateUser = asyncHandler(async (req, res) => {
     });
   }
   // does the user exist to update
-  const user = User.findOne(id);
+  const user = await User.findOne({ _id: id });
   //if user does not exist throw an error
   if (!user) {
     res.status(400).json({
@@ -136,11 +136,14 @@ const deleteUser = asyncHandler(async (req, res) => {
     return res.status(400).json({ message: 'User not found' });
   }
 
+  const deletedUsername = user.username,
+    deletedUserID = user._id;
+
   const result = await user.deleteOne();
 
-  const reply = `Username ${result.username} with ID ${result._id} deleted`;
-
-  res.status(204).json(reply);
+  res.status(200).json({
+    message: `Username ${deletedUsername} with ID ${deletedUserID} deleted!`,
+  });
 });
 
 module.exports = { getAllUsers, createNewUser, updateUser, deleteUser };
