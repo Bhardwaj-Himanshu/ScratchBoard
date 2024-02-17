@@ -47,7 +47,7 @@ app.all('*', (req, res) => {
 app.use(errorHandler);
 
 mongoose
-  .connect(process.env.DATABASE_URI)
+  .connect(process.env.DATABASE_URI, { dbName: 'ETS' })
   .then(() => {
     console.log('Database connected successfully!');
     app.listen(PORT, () => {
@@ -56,8 +56,5 @@ mongoose
   })
   .catch((error) => {
     console.log(error);
-    logEvents(
-      `${err.name}: ${err.message}\t${req.method}\t${req.url}\t${req.headers.origin}`,
-      'mongoErrLog.log'
-    );
+    logEvents(`${error.name}: ${error.message}\t`, 'mongoErrLog.log');
   });
