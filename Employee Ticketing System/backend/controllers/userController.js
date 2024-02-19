@@ -30,7 +30,7 @@ const createNewUser = asyncHandler(async (req, res) => {
     });
   }
   // check for duplicates
-  const duplicate = await User.findOne({ username }).lean().exec();
+  const duplicate = await User.findOne({ username: username }).lean().exec();
 
   if (duplicate) {
     res.status(409).json({
@@ -85,7 +85,7 @@ const updateUser = asyncHandler(async (req, res) => {
     });
   }
   //check if the new username provided by user, already exists
-  const duplicate = await User.findOne({ username }).lean().exec();
+  const duplicate = await User.findOne({ username: username }).lean().exec();
   // then check if that duplicate user is trying to make a change or someone else is
   if (duplicate && duplicate._id.toString() !== id) {
     res.status(409).json({
