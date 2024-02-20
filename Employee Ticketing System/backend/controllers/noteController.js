@@ -9,34 +9,32 @@ const Note = require('../models/note');
 const getAllNotes = asyncHandler(async (req, res) => {
   const notes = await Note.find().lean();
   if (!notes?.length) {
-    res.status(400).json({
+    return res.status(400).json({
       message: 'No notes found or have not been created!',
     });
-    return;
   }
-  res.status(200).json(notes);
+  return res.status(200).json(notes);
 });
 
 //@desc Create New Note
 //@route PUT /notes
 //@access private
 const createNewNote = asyncHandler(async (req, res) => {
-  const { user, title, text, completed } = req.body;
+  const { user, title, text } = req.body;
 
   // first try at doing it without throwing in the User object
-  if (!user || !title || !text || !completed) {
-    res.status(400).json({
+  if (!user || !title || !text) {
+    return res.status(400).json({
       message: 'Please send all the required fields!',
     });
-    return;
   }
   // If that person has everything sent
   // I don't think so we'll check for duplicates in this one
-  const noteObject = { user, title, text, completed };
+  const noteObject = { user, title, text };
   const newNote = await Note.create(noteObject);
 
-  res.status(201).json({
-    message: `A new Note named ${title} got created.`,
+  return res.status(201).json({
+    message: `A new Note titled ${title} by user named ${user} got created.`,
   });
 });
 
