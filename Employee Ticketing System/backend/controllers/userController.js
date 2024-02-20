@@ -10,11 +10,11 @@ const getAllUsers = asyncHandler(async (req, res) => {
   // returns all userData excluding the password
   const users = await User.find().select('-password').lean();
   if (!users?.length) {
-    res.status(400).json({
+    return res.status(400).json({
       message: 'No Users Found!',
     });
   }
-  res.status(200).json(users);
+  return res.status(200).json(users);
 });
 
 //@desc Create New User
@@ -25,7 +25,7 @@ const createNewUser = asyncHandler(async (req, res) => {
   // check if user has send all the details
   const { username, password, roles } = req.body;
   if (!username || !password || !Array.isArray(roles) || !roles.length) {
-    res.status(400).json({
+    return res.status(400).json({
       message: 'Please enter all the required fields!',
     });
   }
@@ -33,10 +33,9 @@ const createNewUser = asyncHandler(async (req, res) => {
   const duplicate = await User.findOne({ username: username }).lean().exec();
 
   if (duplicate) {
-    res.status(409).json({
+    return res.status(409).json({
       message: 'Duplicate username!',
     });
-    return;
   }
 
   // hash the password we recieved before storing
@@ -49,11 +48,11 @@ const createNewUser = asyncHandler(async (req, res) => {
 
   // send back the new user data if created
   if (user) {
-    res.status(201).json({
+    return res.status(201).json({
       message: `New user ${username} created!`,
     });
   } else {
-    res.status(400).json({
+    return res.status(400).json({
       message: 'Invalid user Data recieved!',
     });
   }
@@ -72,7 +71,7 @@ const updateUser = asyncHandler(async (req, res) => {
     !roles.length ||
     typeof active !== 'boolean'
   ) {
-    res.status(400).json({
+    return res.status(400).json({
       message: 'Please Enter all field except password!',
     });
   }
@@ -80,7 +79,7 @@ const updateUser = asyncHandler(async (req, res) => {
   const user = await User.findOne({ _id: id });
   //if user does not exist throw an error
   if (!user) {
-    res.status(400).json({
+    return res.status(400).json({
       message: 'User does not exist!',
     });
   }
@@ -88,7 +87,7 @@ const updateUser = asyncHandler(async (req, res) => {
   const duplicate = await User.findOne({ username: username }).lean().exec();
   // then check if that duplicate user is trying to make a change or someone else is
   if (duplicate && duplicate._id.toString() !== id) {
-    res.status(409).json({
+    return res.status(409).json({
       message: 'Duplicate username, username not avaliable!',
     });
   }
@@ -105,7 +104,7 @@ const updateUser = asyncHandler(async (req, res) => {
 
   const updatedUser = await user.save();
 
-  res.status(203).json({ message: `${updatedUser.username} updated` });
+  return res.status(200).json({ message: `${updatedUser.username} updated` });
 });
 
 //@desc Delete a User
@@ -141,7 +140,7 @@ const deleteUser = asyncHandler(async (req, res) => {
 
   const result = await user.deleteOne();
 
-  res.status(200).json({
+  return res.status(200).json({
     message: `Username ${deletedUsername} with ID ${deletedUserID} deleted!`,
   });
 });
