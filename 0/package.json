@@ -11,6 +11,7 @@
   "author": "Himanshu Bhardwaj",
   "license": "MIT",
   "dependencies": {
+    "body-parser": "^1.20.2",
     "express": "^4.19.2",
     "express-favicon": "^2.0.4",
     "nodemon": "^3.1.3",
